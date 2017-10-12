@@ -62,7 +62,7 @@ def get_200_new_tweets(max_id):
 
 
 def main():
-    save_all_tweets()
+    initial_tweet_download()
 
 
 if __name__ == '__main__':
