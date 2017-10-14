@@ -25,7 +25,7 @@ def initial_tweet_download():
 
     # gets 3200 of latest tweets
     for i in range(0,16):
-        tweets, max_id = get_200_new_tweets(max_id)
+        tweets, max_id = get_paginated_tweets_helper(max_id)
         for tweet in tweets:
             if not tweet.retweeted and str(tweet.id) not in data:
                 data[str(tweet.id)] = {
@@ -39,7 +39,7 @@ def initial_tweet_download():
         json.dump(data, outfile)
 
 
-def get_200_new_tweets(max_id):
+def get_paginated_tweets_helper(max_id):
     """Get the next batch of 200 tweets.
 
     :param max_id: the id of the last tweet
