@@ -1,5 +1,6 @@
 import config
 import json
+import sys
 import tweepy
 
 auth = tweepy.OAuthHandler(config.consumer_key, config.consumer_secret)
@@ -40,11 +41,7 @@ def initial_tweet_download():
 
 
 def get_paginated_tweets_helper(max_id):
-    """Get the next batch of 200 tweets.
-
-    :param max_id: the id of the last tweet
-    :return: tweets and the max_id of last tweet as a tuple
-    """
+    """Get the next batch of 200 tweets."""
     try:
         tweets = api.user_timeline(id='realDonaldTrump', count='200', max_id=max_id, include_rts=False)
     except tweepy.TweepError as e:
@@ -84,7 +81,7 @@ def get_new_tweets():
 
 
 def get_most_favorited_tweet():
-    """Return the tweet with the most favorites and it's id."""
+    """Return the tweet with the most favorites"""
     max_favorite_count = 0
     max_favorite_count_tweet_id = ''
 
@@ -94,17 +91,32 @@ def get_most_favorited_tweet():
     for tweet_id in tweets:        
         if tweets[tweet_id]['retweets'] > max_favorite_count:
             max_favorite_count = tweets[tweet_id]['retweets']
-            max_favorite_tweet_id = tweet_id
+            most_favorited_tweet = tweets[tweet_id]
 
-    return (max_favorite_tweet_id, max_favorite_count)
+    return most_favorited_tweet
 
+
+def get_least_favorited_tweet():
+    """Return the tweet with the least favorites"""
+    least_favorited_count = sys.maxsize
+    least_favorted_count_tweet_id = ''
+
+    with open('data.json', 'r') as outfile:  
+        tweets = json.load(outfile)
+
+    for tweet_id in tweets:        
+        if tweets[tweet_id]['retweets'] < least_favorited_count:
+            least_favorited_tweet = tweets[tweet_id]
+
+    return least_favorited_tweet
 
 def main():
     # initial_tweet_download()
     get_new_tweets()
-    tweet_id, fav = get_most_favorited_tweet()
-    print(tweet_id)
-    print(fav)
+    print('most fav tweet: {}'.format(get_most_favorited_tweet()))
+    least_fav_tweet= get_least_favorited_tweet()
+    print('least fav tweet: {}'.format(least_fav_tweet))
+
 
 if __name__ == '__main__':
     main()
