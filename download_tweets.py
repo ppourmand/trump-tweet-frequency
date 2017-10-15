@@ -1,5 +1,6 @@
 import config
 import json
+import pygal
 import sys
 import tweepy
 
@@ -128,14 +129,30 @@ def get_tweets_per_day():
     return tweets_per_day_frequencies
 
 
+def plot_tweets_per_day():
+    with open('data.json', 'r') as outfile:  
+        tweets = json.load(outfile)
+    tweet_frequencies = get_tweets_per_day()
+    line_chart = pygal.Bar()
+    line_chart.title = 'Trump tweets per day'
+    dates = sorted(set([tweets[tweet_id]['created_at'].split(' ')[0] for tweet_id in tweets]))
+    dates = tuple(dates)
+    line_chart.x_labels = dates
+    counts = []
+    for d in dates:
+        counts.append(int(tweet_frequencies[d]))
+    line_chart.add('tweets', counts)
+    line_chart.render_to_file('chart.svg')
+
+
+
 def main():
     # initial_tweet_download()
     get_new_tweets()
     # print('most fav tweet: {}'.format(get_most_favorited_tweet()))
     least_fav_tweet= get_least_favorited_tweet()
     # print('least fav tweet: {}'.format(least_fav_tweet))
-    count = get_tweets_per_day()
-    print(count)
+    plot_tweets_per_day()
 
 
 if __name__ == '__main__':
