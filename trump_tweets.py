@@ -147,11 +147,8 @@ def plot_tweets_per_day():
 
 
 def main():
-    # initial_tweet_download()
+    initial_tweet_download()
     get_new_tweets()
-    # print('most fav tweet: {}'.format(get_most_favorited_tweet()))
-    least_fav_tweet= get_least_favorited_tweet()
-    # print('least fav tweet: {}'.format(least_fav_tweet))
     plot_tweets_per_day()
 
 
