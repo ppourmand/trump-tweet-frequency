@@ -138,9 +138,7 @@ def plot_tweets_per_day():
     dates = sorted({tweets[tweet_id]['created_at'].split(' ')[0] for tweet_id in tweets})
     dates = tuple(dates)
     line_chart.x_labels = dates
-    counts = []
-    for d in dates:
-        counts.append(int(tweet_frequencies[d]))
+    counts = [int(tweet_frequencies[d]) for d in dates]
     line_chart.add('tweets', counts)
     line_chart.render_to_file('chart.svg')
 
