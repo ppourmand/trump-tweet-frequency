@@ -135,7 +135,7 @@ def plot_tweets_per_day():
     tweet_frequencies = get_tweets_per_day()
     line_chart = pygal.Bar()
     line_chart.title = 'Trump tweets per day'
-    dates = sorted(set([tweets[tweet_id]['created_at'].split(' ')[0] for tweet_id in tweets]))
+    dates = sorted({tweets[tweet_id]['created_at'].split(' ')[0] for tweet_id in tweets})
     dates = tuple(dates)
     line_chart.x_labels = dates
     counts = []
