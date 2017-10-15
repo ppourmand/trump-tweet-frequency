@@ -81,36 +81,6 @@ def get_new_tweets():
         json.dump(data, outfile)
 
 
-def get_most_favorited_tweet():
-    """Return the tweet with the most favorites"""
-    max_favorite_count = 0
-    max_favorite_count_tweet_id = ''
-
-    with open('data.json', 'r') as outfile:  
-        tweets = json.load(outfile)
-
-    for tweet_id in tweets:        
-        if tweets[tweet_id]['retweets'] > max_favorite_count:
-            max_favorite_count = tweets[tweet_id]['retweets']
-            most_favorited_tweet = tweets[tweet_id]
-
-    return most_favorited_tweet
-
-
-def get_least_favorited_tweet():
-    """Return the tweet with the least favorites"""
-    least_favorited_count = sys.maxsize
-    least_favorted_count_tweet_id = ''
-
-    with open('data.json', 'r') as outfile:  
-        tweets = json.load(outfile)
-
-    for tweet_id in tweets:        
-        if tweets[tweet_id]['retweets'] < least_favorited_count:
-            least_favorited_tweet = tweets[tweet_id]
-
-    return least_favorited_tweet
-
 def get_tweets_per_day():
     """Return the tweet frequencies per day as a dict."""
     tweets_per_day_frequencies = defaultdict(int)
