@@ -113,18 +113,14 @@ def get_least_favorited_tweet():
 
 def get_tweets_per_day():
     """Return the tweet frequencies per day as a dict."""
-    tweets_per_day_frequencies = {}
+    tweets_per_day_frequencies = defaultdict(int)
 
     with open('data.json', 'r') as outfile:  
         tweets = json.load(outfile)
 
     for tweet_id in tweets:
         day = tweets[tweet_id]['created_at'].split(' ')[0]
-
-        if day in tweets_per_day_frequencies:
-            tweets_per_day_frequencies[day] += 1
-        else:
-            tweets_per_day_frequencies[day] = 1
+        tweets_per_day_frequencies[day] += 1
 
     return tweets_per_day_frequencies
 
